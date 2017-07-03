@@ -1218,6 +1218,7 @@ public class FrmAdmin extends javax.swing.JFrame {
 
     private void btnNew_JournalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNew_JournalActionPerformed
         // TODO add your handling code here:
+        executeNewData();
     }//GEN-LAST:event_btnNew_JournalActionPerformed
 
     private void btnSearch_JournalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearch_JournalActionPerformed
@@ -1375,6 +1376,21 @@ public class FrmAdmin extends javax.swing.JFrame {
         txtDesc_Journal.setText("");
     }
     
+    private void executeNewData(){
+        int x = 0;
+        Object data[]={ getDateChooser(),
+                        x,
+                        txtChartNumber_Journal.getText().trim(),
+                        txtChartName_Journal.getText(),
+                        Double.valueOf(txtDebit_Journal.getText()),
+                        Double.valueOf(txtCredit_Journal.getText()),
+                        txtDesc_Journal.getText(),
+        };
+        DefaultTableModel tableModel = (DefaultTableModel) tblJournal.getModel();
+        tableModel.addRow(data);
+        x++;
+        executeNew();
+    }
     
     
     private void tableSelectionListener() {
