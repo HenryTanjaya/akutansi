@@ -83,6 +83,8 @@ public class FrmAdmin extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         tblJournal = new javax.swing.JTable();
         btnDelete_Journal = new javax.swing.JButton();
+        totalDebit = new javax.swing.JTextField();
+        totalCredit = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -317,23 +319,46 @@ public class FrmAdmin extends javax.swing.JFrame {
             }
         });
 
+        totalDebit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalDebitActionPerformed(evt);
+            }
+        });
+
+        totalCredit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalCreditActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel22Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDelete_Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel22Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 828, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete_Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel22Layout.createSequentialGroup()
+                        .addGap(487, 487, 487)
+                        .addComponent(totalDebit, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(totalCredit, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel22Layout.createSequentialGroup()
-                .addComponent(btnDelete_Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnDelete_Journal, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalDebit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalCredit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -354,7 +379,7 @@ public class FrmAdmin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 306, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1228,7 +1253,18 @@ public class FrmAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearch_JournalActionPerformed
 
     private void btnSaveData_JournalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveData_JournalActionPerformed
-        executeInsert();
+//        executeInsert();
+        if (totalDebit.getText().equals(totalCredit.getText())){
+                        int x = Sutil.msq(this, "Are you sure?");
+                        if (x == 0) {
+                            executeSave();
+                            System.out.println("Success");
+                        }else {
+                        Sutil.msg(this, "Fill All Data!");
+                        }
+                    } else {
+                        Sutil.msg(this, "unbalanced total kredit and debit");
+                }
     }//GEN-LAST:event_btnSaveData_JournalActionPerformed
 
     private void btnUpdate_JournalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate_JournalActionPerformed
@@ -1244,7 +1280,59 @@ public class FrmAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton21ActionPerformed
 
+    private void totalDebitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalDebitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalDebitActionPerformed
+
+    private void totalCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalCreditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalCreditActionPerformed
+
    
+    private void generateTotal() {
+        double tDebit = 0;
+        double tKredit = 0;
+        for (int row = 0; row < tblJournal.getRowCount(); row++) {
+            tDebit += Double.valueOf(tblJournal.getValueAt(row, 2).toString());
+            tKredit += Double.valueOf(tblJournal.getValueAt(row, 3).toString());
+        }
+        totalDebit.setText(String.valueOf(tDebit));
+        totalCredit.setText(String.valueOf(tKredit));
+    }
+    
+    private void executeSave(){
+            try{
+                        int rows=tblJournal.getRowCount();
+                        String saveSql = "INSERT INTO journal "
+                                    + "(date,chartno,chartname,debit,credit,description)"
+                                    + "VALUES (?,?,?,?,?,?);";
+                        PreparedStatement pstatement = conn.prepareStatement(saveSql);
+                        for(int row = 0; row<rows; row++)
+                        {
+                            String dateStr;
+                            DateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+                            dateStr=f.format(tblJournal.getValueAt(row, 1));
+                            
+                            String chartno = (String)tblJournal.getValueAt(row, 2);
+                            String chartname = (String)tblJournal.getValueAt(row, 3);
+                            Double debit = (Double)tblJournal.getValueAt(row, 4);
+                            Double credit = (Double)tblJournal.getValueAt(row, 5);
+                            String desc = (String)tblJournal.getValueAt(row, 6);
+                            
+                            pstatement.setString(1, dateStr);
+                            pstatement.setString(2, chartno);
+                            pstatement.setString(3, chartname);
+                            pstatement.setDouble(4, debit);
+                            pstatement.setDouble(5, credit);
+                            pstatement.setString(6, desc);
+                            pstatement.addBatch();
+                        }
+                        pstatement.executeBatch();
+                        }
+                        catch(Exception e){
+                            Sutil.msg(this,e.getMessage());
+                        }
+    }
     
     
     private void databaseConnection() {
@@ -1267,7 +1355,7 @@ public class FrmAdmin extends javax.swing.JFrame {
             String updateSql = "UPDATE journal SET "
                     +" date=?,chartno=?,chartname=?,debit=?,credit=?,description=? WHERE jid=?";
             PreparedStatement pstatement = conn.prepareStatement(updateSql);
-            pstatement.setString(1, dateChooser.getDate().toString());
+            pstatement.setString(1, getDateChooser());
             pstatement.setString(2, txtChartNumber_Journal.getText().trim());
             pstatement.setString(3, txtChartName_Journal.getText().trim());
             pstatement.setDouble(4, Double.valueOf(txtDebit_Journal.getText()));
@@ -1294,15 +1382,20 @@ public class FrmAdmin extends javax.swing.JFrame {
         }
     
     private void executeDelete(){
+        
+        int row = tblJournal.getSelectedRow();
+        DefaultTableModel tableModel = (DefaultTableModel) tblJournal.getModel();
         try {
-            String updateSql = "DELETE FROM journal WHERE jid = ? ";
-            PreparedStatement pstatement = conn.prepareStatement(updateSql);
-            pstatement.setInt(1, Integer.valueOf(txtChartNumber_Journal.getText().trim()));
+            String deleteSql = "DELETE FROM journal WHERE jid = ?";
+            PreparedStatement pstatement = conn.prepareStatement(deleteSql);
+            pstatement.setString(1, String.valueOf(tblJournal.getValueAt(row, 2)));
+            System.out.println(deleteSql);
             pstatement.executeUpdate();
+            tableModel.removeRow(row);
             pstatement.close();
             executeNew();
             Sutil.msg(this, "Delete successful.");
-            
+           
             loadAllDatabase();
         } catch (SQLException ex) {
             Logger.getLogger(FrmAdmin.class.getName()).log(Level.SEVERE, null, ex);
@@ -1360,8 +1453,10 @@ public class FrmAdmin extends javax.swing.JFrame {
             pstatement.executeUpdate();
             pstatement.close();
             Sutil.msg(this, "Insert successful.");
-            executeNew();
-            loadAllDatabase();
+//            executeNew();
+//            loadAllDatabase();
+            DefaultTableModel tableModel = (DefaultTableModel) tblJournal.getModel();
+            tableModel.setRowCount(0);
         } catch (SQLException ex) {
             Logger.getLogger(FrmAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1390,6 +1485,7 @@ public class FrmAdmin extends javax.swing.JFrame {
         tableModel.addRow(data);
         x++;
         executeNew();
+        generateTotal();
     }
     
     
@@ -1529,6 +1625,8 @@ public class FrmAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTable tblJournal;
+    private javax.swing.JTextField totalCredit;
+    private javax.swing.JTextField totalDebit;
     public static javax.swing.JTextField txtChartName_Journal;
     public static javax.swing.JTextField txtChartNumber_Journal;
     private javax.swing.JTextField txtCredit_Journal;
